@@ -12,8 +12,8 @@ def main():
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
     plt.hist(summary, bins=40)
-    plt.title('Distribution of Volume')
-    plt.xlabel('Volume (dB)')
+    plt.title('Distribution of Loudness')
+    plt.xlabel('Volume (dBFS)')
     plt.ylabel('Count')
     plt.savefig('data/graphs/graph_volume_histogram.png')
 

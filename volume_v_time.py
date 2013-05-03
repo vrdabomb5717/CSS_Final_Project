@@ -46,10 +46,10 @@ def main():
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
     plt.plot(years, louds)
-    plt.title('Average Volume per Year (1922-2011)')
+    plt.title('Average Loudness per Year (1922-2011)')
     plt.xlim([min(years), max(years)])
     plt.xlabel('Year')
-    plt.ylabel('Volume (dB)')
+    plt.ylabel('Volume (dBFS)')
     plt.savefig('data/graphs/graph_volume_v_time.png')
 
 
