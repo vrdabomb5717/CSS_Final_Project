@@ -2,7 +2,6 @@
 
 import argparse
 import csv
-import pdb
 
 from nltk.corpus import stopwords
 import numpy as np
@@ -56,10 +55,7 @@ def read_lyrics_file(infile, add_one=True):
             split_counts = [i.split(":") for i in counts]
 
             for i in split_counts:
-                try:
-                    word, count = i
-                except ValueError:
-                    pdb.set_trace()
+                word, count = i
 
                 try:
                     # Words are one-indexed
