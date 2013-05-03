@@ -1,2 +1,5 @@
 1. Talk about rise of casette tapes v records around 1970s &
     corroborating data online.
+2. We have most common words (and most common interesting words)
+    We found fraction of songs with "love" and "baby"
+    We can take into account how many times a word appears.
