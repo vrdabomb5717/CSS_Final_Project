@@ -157,7 +157,7 @@ def main():
     print("Top 10 Words:")
     for i, (count, word) in enumerate(top_10):
         percentage = count / num_songs
-        print("\tRank {}: {} with {}%".format(i + 1, words[word], percentage))
+        print("\tRank {}: {} with {}%".format(i + 1, words[word], percentage * 100))
 
     print()
     stemmed_stopwords = list(map(stem_word, stopwords.words('english')))
@@ -167,7 +167,8 @@ def main():
     for count, word in top_counts:
         if words_printed < 10:
             if words[word] not in stemmed_stopwords:
-                print("\tRank {}: {}".format(words_printed + 1, words[word]))
+                percentage = count / num_songs
+                print("\tRank {}: {} with {}%".format(i + 1, words[word], percentage * 100))
                 words_printed += 1
 
     plot_histogram(top_counts, words)
