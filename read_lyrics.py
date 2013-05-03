@@ -2,7 +2,11 @@
 
 import argparse
 import csv
+import heapq
 import pdb
+
+import nltk
+import numpy as np
 
 import lyrics_to_bow as ltb
 
@@ -23,7 +27,7 @@ class CommentedFile:
         return self
 
 
-def read_lyrics_file(infile):
+def read_lyrics_file(infile, add_one=True):
     """Read lyrics file.
 
     File is formatted as:
@@ -42,22 +46,42 @@ def read_lyrics_file(infile):
         first_word = words[0]
         first_word = first_word.replace("%", "")
         words[0] = first_word
+        word_counts = np.zeros(len(words), dtype=np.uint64)
+        num_songs = 0
 
         for line in lyrics_reader:
             tid, mxmid, *counts = line
+            num_songs += 1
             split_counts = [i.split(":") for i in counts]
-            pdb.set_trace()
 
-        return words
+            for i in split_counts:
+                try:
+                    word, count = i
+                except ValueError:
+                    pdb.set_trace()
+
+                try:
+                    # Words are one-indexed
+                    word = int(word) - 1
+                    count = int(count)
+                    increment = 1 if add_one else count
+                    word_counts[word] += increment
+                except ValueError:
+                    print("Number could not be converted.")
+
+        return word_counts, words, num_songs
 
 
-def stuff(word, words):
-    stemmed_word = ltb.lyrics_to_bow(word).keys()
+def get_word_index(word, words):
+    stemmed_word = list(ltb.lyrics_to_bow(word).keys())
+    stemmed_word = stemmed_word[0]
 
     try:
         index = words.index(stemmed_word)
+        return index
     except ValueError:
         print("Word could not be found.")
+        return None
 
 
 def main():
@@ -68,8 +92,24 @@ def main():
     args = parser.parse_args()
 
     infile = args.infile
-    words = read_lyrics_file(infile)
+    word_counts, words, num_songs = read_lyrics_file(infile)
+    top_counts = [(x, i) for i, x in enumerate(word_counts)]
+    heapq.heapify(top_counts)
 
+    print("Number of songs: {}".format(num_songs))
+    idx = get_word_index("baby", words)
+    print("Percent of songs with baby: {}".format(word_counts[idx] / num_songs))
+
+    idx = get_word_index("love", words)
+    print("Percent of songs with love: {}".format(word_counts[idx] / num_songs))
+
+    top_10 = heapq.nlargest(10, top_counts)
+
+    print("Top 10 Words:")
+    for i, (count, word) in enumerate(top_10):
+        print("\tRank {}: {}".format(i + 1, words[word]))
+
+    # print("Top 10 Words that are not Stopwords:")
 
 if __name__ == '__main__':
     main()
