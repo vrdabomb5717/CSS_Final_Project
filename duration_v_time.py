@@ -17,7 +17,7 @@ def main():
     plt.rc('text', usetex=True)
     plt.rc('font', family='serif')
     plt.plot(years, durations)
-    plt.title('Average Song Duration per Year')
+    plt.title('Average Song Duration per Year (1922-2011)')
     plt.xlim([min(years), max(years)])
     plt.xlabel('Year')
     plt.ylabel('Duration (minutes)')
