@@ -1,18 +1,18 @@
-Fri May 03 10:17 AM CSS_Final_Project $ ./read_lyrics.py data/mxm.txt
+Fri May 03 10:28 AM CSS_Final_Project $ ./read_lyrics.py data/mxm.txt
 Number of songs: 237662
 Percent of songs with baby: 0.1334668562917084
 Percent of songs with love: 0.30893874494029333
 Top 10 Words:
-    Rank 1: the
-    Rank 2: a
-    Rank 3: to
-    Rank 4: and
-    Rank 5: i
-    Rank 6: you
-    Rank 7: in
-    Rank 8: is
-    Rank 9: me
-    Rank 10: it
+    Rank 1: the with 0.7927266454039771%
+    Rank 2: a with 0.7718608780537065%
+    Rank 3: to with 0.7542812902357129%
+    Rank 4: and with 0.740198264762562%
+    Rank 5: i with 0.7325319150726662%
+    Rank 6: you with 0.7017192483442872%
+    Rank 7: in with 0.6735574050542367%
+    Rank 8: is with 0.6462539236394543%
+    Rank 9: me with 0.6357558212924237%
+    Rank 10: it with 0.6291329703528541%
 
 Top 10 Words that are not Stopwords:
     Rank 1: know
@@ -27,31 +27,29 @@ Top 10 Words that are not Stopwords:
     Rank 10: never
 
 Some statistics on swear words:
-    rank 294: fuck, with 5.174575657867055%
-    rank 333: hell, with 4.474421657648256%
-    rank 360: shit, with 4.137388391917933%
-    rank 416: blow, with 3.5104476104720153%
-    rank 593: ass, with 2.2645605944576754%
-    rank 614: bitch, with 2.1391724381684916%
-    rank 628: nigga, with 2.082789844400872%
-    rank 936: fuckin, with 1.3014280785316963%
-    rank 1093: sex, with 1.055280187829775%
-    rank 1286: dick, with 0.8777170940242865%
-    rank 1330: niggaz, with 0.8436350783886359%
-    rank 1469: flip, with 0.7237168752261616%
-    rank 1753: whore, with 0.5840226876825071%
-    rank 1972: sexi, with 0.5057602814080501%
-    rank 2018: cock, with 0.4897711876530535%
-    rank 2141: pussi, with 0.4430662032634582%
-    rank 2168: bastard, with 0.43717548451161736%
-    rank 2246: screw, with 0.41908256263096333%
-    rank 2491: gay, with 0.36690762511465863%
-    rank 3392: fucker, with 0.23731181257415995%
-    rank 3401: crap, with 0.23647028132389694%
-    rank 3596: carpet, with 0.21837735944324294%
-    rank 3691: slut, with 0.21038281256574462%
-    rank 3723: asshol, with 0.2078582188149557%
-    rank 3927: cum, with 0.19018606255943313%
-    rank 4693: cunt, with 0.12875428129023572%
-
-b[0:10]
+    Rank 294: fuck, with 5.174575657867055%
+    Rank 333: hell, with 4.474421657648256%
+    Rank 360: shit, with 4.137388391917933%
+    Rank 416: blow, with 3.5104476104720153%
+    Rank 593: ass, with 2.2645605944576754%
+    Rank 614: bitch, with 2.1391724381684916%
+    Rank 628: nigga, with 2.082789844400872%
+    Rank 936: fuckin, with 1.3014280785316963%
+    Rank 1093: sex, with 1.055280187829775%
+    Rank 1286: dick, with 0.8777170940242865%
+    Rank 1330: niggaz, with 0.8436350783886359%
+    Rank 1469: flip, with 0.7237168752261616%
+    Rank 1753: whore, with 0.5840226876825071%
+    Rank 1972: sexi, with 0.5057602814080501%
+    Rank 2018: cock, with 0.4897711876530535%
+    Rank 2141: pussi, with 0.4430662032634582%
+    Rank 2168: bastard, with 0.43717548451161736%
+    Rank 2246: screw, with 0.41908256263096333%
+    Rank 2491: gay, with 0.36690762511465863%
+    Rank 3392: fucker, with 0.23731181257415995%
+    Rank 3401: crap, with 0.23647028132389694%
+    Rank 3596: carpet, with 0.21837735944324294%
+    Rank 3691: slut, with 0.21038281256574462%
+    Rank 3723: asshol, with 0.2078582188149557%
+    Rank 3927: cum, with 0.19018606255943313%
+    Rank 4693: cunt, with 0.12875428129023572%

@@ -100,6 +100,7 @@ def plot_histogram(top_counts, words):
     rc('text', usetex=True)
     plt.hist(counts, bins=20)
     plt.title('Lyrics Distribution for 237,662 Tracks')
+    plt.xlabel('Ranking of Word')
     plt.ylabel('Number of Tracks')
     plt.savefig('lyrics_histogram_10_bins.png')
     plt.clf()
@@ -107,6 +108,7 @@ def plot_histogram(top_counts, words):
     rc('text', usetex=True)
     plt.hist(counts, bins=len(words))
     plt.title('Lyrics Distribution of All {} Words'.format(len(words)))
+    plt.xlabel('Ranking of Word')
     plt.ylabel('Number of Tracks')
     plt.savefig('lyrics_histogram_all_bins.png')
     plt.clf()
@@ -128,7 +130,7 @@ def bad_statistics(badfile, words, top_counts, num_songs):
 
     for word, rank in bad2:
         percentage = a[rank] / num_songs
-        print("\trank {}: {}, with {}%".format(rank, word, percentage * 100))
+        print("\tRank {}: {}, with {}%".format(rank, word, percentage * 100))
 
 
 def main():
@@ -154,7 +156,8 @@ def main():
 
     print("Top 10 Words:")
     for i, (count, word) in enumerate(top_10):
-        print("\tRank {}: {}".format(i + 1, words[word]))
+        percentage = count / num_songs
+        print("\tRank {}: {} with {}%".format(i + 1, words[word], percentage))
 
     print()
     stemmed_stopwords = list(map(stem_word, stopwords.words('english')))
@@ -168,6 +171,7 @@ def main():
                 words_printed += 1
 
     plot_histogram(top_counts, words)
+
     print()
     bad_statistics("data/bad.txt", words, top_counts, num_songs)
 
