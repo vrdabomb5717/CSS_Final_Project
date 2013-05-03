@@ -124,11 +124,11 @@ def bad_statistics(badfile, words, top_counts, num_songs):
     bad2 = {(x, b.index(x)) for x in bad1 if x in words}
     bad2 = sorted(list(bad2), key=lambda x: x[1])
 
-    print("Some statistics on swear words:\n")
+    print("Some statistics on swear words:")
 
     for word, rank in bad2:
         percentage = a[rank] / num_songs
-        print("rank {}: {}, with {}%".format(rank, word, percentage * 100))
+        print("\trank {}: {}, with {}%".format(rank, word, percentage * 100))
 
 
 def main():
