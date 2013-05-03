@@ -1,7 +1,8 @@
-Fri May 03 10:35 AM CSS_Final_Project $ python3 -O read_lyrics.py data/mxm.txt
+Fri May 03 11:02 AM CSS_Final_Project $ python3 -O read_lyrics.py data/mxm.txt
 Number of songs: 237662
-Percent of songs with baby: 0.1334668562917084
-Percent of songs with love: 0.30893874494029333
+baby: Rank 110 with 13.34668562917084%
+love: Rank 37 with 30.893874494029333%
+
 Top 10 Words:
     Rank 1: the with 79.27266454039771%
     Rank 2: a with 77.18608780537065%
@@ -15,16 +16,16 @@ Top 10 Words:
     Rank 10: it with 62.91329703528541%
 
 Top 10 Words that are not Stopwords:
-    Rank 10: know with 38.56401107455125%
-    Rank 10: like with 33.34188890104434%
-    Rank 10: time with 31.49725240046789%
-    Rank 10: love with 30.893874494029333%
-    Rank 10: see with 29.391741212309917%
-    Rank 10: come with 28.83254369651017%
-    Rank 10: go with 28.819079196505964%
-    Rank 10: one with 28.484149758901296%
-    Rank 10: get with 26.738393180230744%
-    Rank 10: never with 25.17609041411753%
+    Rank 29: know with 38.56401107455125%
+    Rank 35: like with 33.34188890104434%
+    Rank 37: time with 31.49725240046789%
+    Rank 38: love with 30.893874494029333%
+    Rank 43: see with 29.391741212309917%
+    Rank 44: come with 28.83254369651017%
+    Rank 45: go with 28.819079196505964%
+    Rank 46: one with 28.484149758901296%
+    Rank 50: get with 26.738393180230744%
+    Rank 53: never with 25.17609041411753%
 
 Some statistics on swear words:
     Rank 294: fuck, with 5.174575657867055%

@@ -140,16 +140,20 @@ def main():
     word_counts, words, num_songs = read_lyrics_file(infile)
     top_counts = [(x, i) for i, x in enumerate(word_counts)]
     top_counts = sorted(top_counts, key=lambda x: x[0], reverse=True)
+    b = [words[word] for count, word in top_counts]
 
     print("Number of songs: {}".format(num_songs))
     idx = get_word_index("baby", words)
-    print("Percent of songs with baby: {}".format(word_counts[idx] / num_songs))
+    rank = b.index(stem_word("baby"))
+    print("baby: Rank {} with {}%".format(rank, (word_counts[idx] / num_songs) * 100))
 
     idx = get_word_index("love", words)
-    print("Percent of songs with love: {}".format(word_counts[idx] / num_songs))
+    rank = b.index(stem_word("love"))
+    print("love: Rank {} with {}%".format(rank, (word_counts[idx] / num_songs) * 100))
 
     top_10 = top_counts[0:10]
 
+    print()
     print("Top 10 Words:")
     for i, (count, word) in enumerate(top_10):
         percentage = count / num_songs
@@ -163,8 +167,9 @@ def main():
     for count, word in top_counts:
         if words_printed < 10:
             if words[word] not in stemmed_stopwords:
+                rank = b.index(words[word])
                 percentage = count / num_songs
-                print("\tRank {}: {} with {}%".format(i + 1, words[word], percentage * 100))
+                print("\tRank {}: {} with {}%".format(rank + 1, words[word], percentage * 100))
                 words_printed += 1
 
     plot_histogram(top_counts, words)
