@@ -68,18 +68,18 @@ def lyrics_to_bow(lyrics):
                    '{', '}', '/', '\\', '_', '|', '-', '@', '#', '*')
     for p in punctuation:
         lyrics_flat = lyrics_flat.replace(p, '')
-    words = filter(lambda x: x.strip() != '', lyrics_flat.split(' '))
+    words = [x for x in lyrics_flat.split(' ') if x.strip() != '']
     # stem words
-    words = map(lambda x: stem(x), words)
+    words = [stem(x) for x in words]
     bow = {}
     for w in words:
-        if not w in bow.keys():
+        if not w in list(bow.keys()):
             bow[w] = 1
         else:
             bow[w] += 1
     # remove special words that are wrong
     fake_words = ('>', '<', 'outro~')
-    bowwords = bow.keys()
+    bowwords = list(bow.keys())
     for bw in bowwords:
         if bw in fake_words:
             bow.pop(bw)
@@ -96,17 +96,17 @@ def lyrics_to_bow(lyrics):
 
 def die_with_usage():
     """ HELP MENU """
-    print 'lyrics_to_bow.py'
-    print '   by T. Bertin-Mahieux (2011) Columbia University'
-    print '      tb2332@columbia.edu'
-    print 'This code shows how we transformed lyrics into bag-of-words.'
-    print 'It is mostly intended to be used as a library, but you can pass'
-    print 'in lyrics and we print the resulting dictionary.'
-    print ''
-    print 'USAGE:'
-    print '  ./lyrics_to_bow.py <lyrics>'
-    print 'PARAMS:'
-    print '    <lyrics>  - lyrics as one string'
+    print('lyrics_to_bow.py')
+    print('   by T. Bertin-Mahieux (2011) Columbia University')
+    print('      tb2332@columbia.edu')
+    print('This code shows how we transformed lyrics into bag-of-words.')
+    print('It is mostly intended to be used as a library, but you can pass')
+    print('in lyrics and we print the resulting dictionary.')
+    print('')
+    print('USAGE:')
+    print('  ./lyrics_to_bow.py <lyrics>')
+    print('PARAMS:')
+    print('    <lyrics>  - lyrics as one string')
     sys.exit(0)
 
 
@@ -125,12 +125,12 @@ if __name__ == '__main__':
     # make bag of words
     bow = lyrics_to_bow(lyrics)
     if bow is None:
-        print 'ERROR, maybe there was not enough words to be realistic?'
+        print('ERROR, maybe there was not enough words to be realistic?')
         sys.exit(0)
 
     # print result
     try:
         from operator import itemgetter
-        print sorted(bow.items(), key=itemgetter(1), reverse=True)
+        print(sorted(list(bow.items()), key=itemgetter(1), reverse=True))
     except ImportError:
-        print bow
+        print(bow)
