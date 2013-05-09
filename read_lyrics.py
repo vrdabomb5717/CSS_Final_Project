@@ -111,6 +111,7 @@ def plot_histogram(top_counts, words):
 
 
 def bad_statistics(badfile, words, top_counts, num_songs):
+    """Calculate statistics on swear words."""
     a = [count for count, word in top_counts]
     b = [words[word] for count, word in top_counts]
 
