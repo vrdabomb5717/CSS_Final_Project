@@ -62,8 +62,79 @@
 
 \begin_body
 
-\begin_layout Standard
+\begin_layout Title
+APMA E4990 Final Project Report
+\end_layout
 
+\begin_layout Author
+Varun Ravishankar, vr2263 and Viktor Roytman, vr2262
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Itemize
+Intro paragraph
+\end_layout
+
+\begin_layout Itemize
+motivation
+\end_layout
+
+\begin_layout Itemize
+explanation of problem
+\end_layout
+
+\begin_layout Section
+Datasets
+\end_layout
+
+\begin_layout Itemize
+List the MSD datasets we used
+\end_layout
+
+\begin_layout Itemize
+List the specific ones we looked at, and how we transformed/preprocessed
+ them
+\end_layout
+
+\begin_layout Section
+Technology and Dev Environment
+\end_layout
+
+\begin_layout Itemize
+For certain questions, like analysis of duration, boring old SQL queries
+ were convenient.
+\end_layout
+
+\begin_layout Itemize
+For others, we stuck to our favorites: Python, NumPy, and pandas.
+ 
+\end_layout
+
+\begin_layout Section
+Lyrics
+\end_layout
+
+\begin_layout Section
+Duration
+\end_layout
+
+\begin_layout Section
+Volume
+\end_layout
+
+\begin_layout Section
+Tempo
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Section
+References
 \end_layout
 
 \end_body
