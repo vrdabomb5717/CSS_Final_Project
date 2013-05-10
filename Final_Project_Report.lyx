@@ -3188,6 +3188,15 @@ reference "fig:Song-Duration-Distribution"
  There are very few songs with exceptionally long duration, and we had no
  success confirming that the songs with the longest duration in the dataset
  were actually that long (30 - 60 minutes).
+ The summary statistics for this distribution, displayed in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Summary-Statistics-of-Duration"
+
+\end_inset
+
+, verify this and tell us that there is a high spread but little variation
+ for most songs.
 \end_layout
 
 \begin_layout Standard
@@ -3433,6 +3442,13 @@ Max
 
 \begin_layout Plain Layout
 Summary Statistics of Duration Distribution
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Summary-Statistics-of-Duration"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
