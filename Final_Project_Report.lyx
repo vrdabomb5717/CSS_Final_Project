@@ -915,6 +915,45 @@ name "fig:Song-Tempo-Distribution"
 Future Work
 \end_layout
 
+\begin_layout Standard
+In the future, we would like to focus on genre analysis.
+ We originally planned to use Amazon EC2, Amazon EMR, and Hadoop to explore
+ the Million Song Dataset.
+ We planned to find genres and then calculate duration, tempo, volume, and
+ other features per genre.
+ This did not work out because when we explored some of the HDF5 files in
+ the dataset, the genres were set to empty strings.
+ This was true even when we explored the full dataset.
+ To further complicate matters, the dataset did not list genre as a valid
+ field.
+ Instead, it seems that we would have had to explore the musicbrainz tags,
+ which are stored as arrays of strings per song.
+ Because these tags are only a weak indicator of genre and because we tried
+ to avoid looking at the full dataset as much as possible, we decided it
+ would be best to explore an alternative dataset.
+ We began to look at the Last.fm dataset
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://labrosa.ee.columbia.edu/millionsong/lastfm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+, but ran out of time before we could explore this fully.
+\end_layout
+
 \begin_layout Section
 Conclusion
 \end_layout
