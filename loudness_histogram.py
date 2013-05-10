@@ -19,9 +19,9 @@ def main():
     rc('font', family='serif')
     plt.hist(SUMMARY, bins=40)
     plt.title('Distribution of Loudness')
-    plt.xlabel('Volume (dBFS)')
+    plt.xlabel('Loudness (dBFS)')
     plt.ylabel('Count')
-    plt.savefig('data/graphs/graph_volume_histogram.png')
+    plt.savefig('data/graphs/graph_loudness_histogram.png')
 
 
 if __name__ == '__main__':

@@ -69,8 +69,8 @@ def main():
     plt.title('Average Loudness per Year ({}-{})'.format(first, last))
     plt.xlim((first, last))
     plt.xlabel('Year')
-    plt.ylabel('Volume (dBFS)')
-    plt.savefig('data/graphs/graph_volume_v_time.png')
+    plt.ylabel('Loudness (dBFS)')
+    plt.savefig('data/graphs/graph_loudness_v_time.png')
 
 
 if __name__ == '__main__':
