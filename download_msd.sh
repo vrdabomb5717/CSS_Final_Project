@@ -14,6 +14,7 @@ wget -P $DATA $MSD_SITE/mxm_dataset_test.txt.zip
 unzip -d $DATA $DATA/mxm_dataset_train.txt.zip
 unzip -d $DATA $DATA/mxm_dataset_test.txt.zip
 
+# Remove first 18 lines of test file (comments and the header) so script doesn't fail.
 cat $DATA/mxm_dataset_train.txt <(sed '1,18d' $DATA/mxm_dataset_test.txt) > $DATA/mxm.txt
 
 rm $DATA/mxm_dataset_train.txt.zip
