@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 -O
+#!/usr/bin/env python3
 
 import argparse
 import csv
@@ -98,7 +98,7 @@ def plot_histogram(top_counts, words):
     plt.title('Lyrics Distribution for 237,662 Tracks')
     plt.xlabel('Ranking of Word')
     plt.ylabel('Number of Tracks')
-    plt.savefig('lyrics_histogram_10_bins.png')
+    plt.savefig('data/graphs/lyrics_histogram_10_bins.png')
     plt.clf()
 
     rc('text', usetex=True)
@@ -106,7 +106,7 @@ def plot_histogram(top_counts, words):
     plt.title('Lyrics Distribution of All {} Words'.format(len(words)))
     plt.xlabel('Ranking of Word')
     plt.ylabel('Number of Tracks')
-    plt.savefig('lyrics_histogram_all_bins.png')
+    plt.savefig('data/graphs/lyrics_histogram_all_bins.png')
     plt.clf()
 
 
@@ -117,7 +117,7 @@ def bad_statistics(badfile, words, top_counts, num_songs):
 
     bads = open(badfile)
     bads = bads.readlines()
-    bads = list(map(lambda x: x.strip(), bads))
+    bads = [x.strip() for x in bads]
     bads = [x for x in bads if x.isalpha()]
     bad1 = list(map(stem_word, bads))
     bad2 = {(x, b.index(x)) for x in bad1 if x in words}

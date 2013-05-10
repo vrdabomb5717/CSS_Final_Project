@@ -4,6 +4,7 @@ DATA=data
 MSD_SITE="http://labrosa.ee.columbia.edu/millionsong/sites/default/files/AdditionalFiles"
 
 mkdir -p $DATA
+mkdir -p $DATA/graphs
 
 ## Download data for Lyrics Analysis
 

@@ -41,3 +41,4 @@ nosetests.xml
 /data/mxm.txt
 /lyrics_histogram_10_bins.png
 /lyrics_histogram_all_bins.png
+/data/tracks_per_year.txt
