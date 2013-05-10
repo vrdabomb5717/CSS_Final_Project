@@ -11,18 +11,26 @@ from matplotlib import pyplot as plt, rc
 import pandas as pd
 
 
-# COMMENTS GO HERE ###########################################################
+# We only want part of the hdfs file.
 SUMMARY = pd.read_hdf('data/msd_summary_file.h5', 'analysis/songs')
 SUMMARY = SUMMARY[['track_id', 'tempo']]
+# We need to convert the track_id byte arrays to strings.
 SUMMARY.track_id = SUMMARY.track_id.map(lambda x: x.decode('utf-8'))
+# The goal is a mapping of track_id to tempo.
 SUMMARY.set_index('track_id', inplace=True)
 
 
 def id_to_tempo(track_id):
+    """Look up the tempo for a given track_id."""
     return SUMMARY.loc[track_id][0]
 
 
 def year_lists():
+    """
+    Return a list of lists containing a year and a list of durations for songs
+    from that year.
+
+    """
     result = [[[], []]]
     count = 0
     with open('data/tracks_per_year.txt') as year_data:
@@ -35,8 +43,10 @@ def year_lists():
             cur_yr, track_id, _, _ = line.strip().split('<SEP>')
             cur_yr = int(cur_yr)
             dur = id_to_tempo(str(track_id))
+            # Append a duration if the year matches.
             if cur_yr == result[count][0]:
                 result[count][1].append(dur)
+            # Append a new year list if the year doesn't match.
             else:
                 result.append([cur_yr, [dur]])
                 count += 1
@@ -44,18 +54,23 @@ def year_lists():
 
 
 def averager(tempoes):
+    """Given a list of tempoes, find the average."""
     return sum(tempoes) / len(tempoes)
 
 
 def main():
-    tempo_data = [[ylist[0], averager(ylist[1])] for ylist in year_lists()]
+    """Get the tempo information and make a graph."""
+    tempo_data = [[ylist[0], averager(ylist[1])] for ylist in year_lists() \
+                   if len(ylist[1]) >= 10]
     years, tempoes = zip(*tempo_data)
 
     rc('text', usetex=True)
     rc('font', family='serif')
     plt.plot(years, tempoes)
-    plt.title('Average Tempo per Year (1922-2011)')
-    plt.xlim([min(years), max(years)])
+    first = min(years)
+    last = max(years)
+    plt.title('Average Tempo per Year ({}-{})'.format(first, last))
+    plt.xlim((first, last))
     plt.xlabel('Year')
     plt.ylabel('Tempo (beats per minute)')
     plt.savefig('data/graphs/graph_tempo_v_time.png')
