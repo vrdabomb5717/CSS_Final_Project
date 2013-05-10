@@ -90,16 +90,74 @@ Varun Ravishankar, vr2263 and Viktor Roytman, vr2262
 Introduction
 \end_layout
 
-\begin_layout Itemize
-Intro paragraph
+\begin_layout Standard
+It's no surprise that people value the songs of their youth and often react
+ with disdain at newer music.
+ The problem with this mindset is that it is no way to judge music; it is
+ completely subjective.
+ What we would like is an objective way to quantify and compare songs and
+ determine who's right.
+ As it happens, with the Million Song Dataset we can do just that 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bertin-Mahieux2011"
+
+\end_inset
+
+.
 \end_layout
 
-\begin_layout Itemize
-motivation
+\begin_layout Standard
+We analyzed the Million Song Dataset in order to answer a few questions
+ we had about the state of music and how it has changed over time.
+ Our initial question was whether every song has the word 
+\begin_inset Quotes eld
+\end_inset
+
+baby
+\begin_inset Quotes erd
+\end_inset
+
+ in its lyrics.
+ From this we decided to do a general analysis of word frequency, taking
+ into account the prevalence of common words, and to highlight our favorite
+ words.
+ Next we considered the question of how to see trends in music over time.
+ To do this we would need some musical qualities that are inherently quantifiabl
+e.
+ The metrics we decided to study are song duration, tempo, and loudness,
+ and we investigated the distribution and change over time for each one.
+ By answering these questions, we can identify trends in the state of music
+ and determine whether historical events have had noticeable effects on
+ these musical characteristics.
 \end_layout
 
-\begin_layout Itemize
-explanation of problem
+\begin_layout Standard
+In addition to our 
+\begin_inset Quotes eld
+\end_inset
+
+baby
+\begin_inset Quotes erd
+\end_inset
+
+ hypothesis, we had a few predictions for our metrics.
+ There is a well-known phenomenon known as the 
+\begin_inset Quotes eld
+\end_inset
+
+loudness wars,
+\begin_inset Quotes erd
+\end_inset
+
+ so we predicted the loudness of songs to increase over time.
+ As an aside, the measure of loudness in this case is dBFS, or decibels
+ relative to full scale.
+ In other words, for a digital medium and some encoding scheme, there is
+ a maximum possible amplitude denoted 0 dBFS, and amplitudes smaller than
+ that are negative.
+ We also predicted that the tempo of songs would increase over time (there
+ was no metal music in the 1940s).
 \end_layout
 
 \begin_layout Section
