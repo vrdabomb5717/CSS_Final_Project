@@ -1,7 +1,9 @@
+#!/usr/bin/env python3 -O
+
+import sqlite3
+
 import matplotlib
 matplotlib.use('Agg')
-#import pandas as pd
-import sqlite3
 from matplotlib import pyplot as plt, rc
 
 

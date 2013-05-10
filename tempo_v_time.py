@@ -1,7 +1,9 @@
+#!/usr/bin/env python3 -O
+
 import matplotlib
 matplotlib.use('Agg')
-import pandas as pd
 from matplotlib import pyplot as plt, rc
+import pandas as pd
 
 
 summary = pd.read_hdf('data/msd_summary_file.h5', 'analysis/songs')

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3 -O
 """
 Thierry Bertin-Mahieux (2011) Columbia University
 tb2332@columbia.edu
