@@ -26,9 +26,18 @@
 \index_command default
 \paperfontsize default
 \spacing single
-\use_hyperref false
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_amsmath 1
 \use_esint 1
 \use_mhchem 1
@@ -43,6 +52,10 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -100,17 +113,166 @@ List the specific ones we looked at, and how we transformed/preprocessed
 \end_layout
 
 \begin_layout Section
-Technology and Dev Environment
+Technology and Development Environment
 \end_layout
 
-\begin_layout Itemize
-For certain questions, like analysis of duration, boring old SQL queries
- were convenient.
+\begin_layout Standard
+Our technology stack was simple.
+ Our programs consisted of scripts meant to be run on POSIX machines.
+ We tested and ran our scripts on Fedora 18 and OS X 10.8.3, using Python
+ 3 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.python.org/
 \end_layout
 
-\begin_layout Itemize
-For others, we stuck to our favorites: Python, NumPy, and pandas.
- 
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ and Bash 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.gnu.org/software/bash/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ For analyzing the lyrics dataset, we wrote scripts in Python to read in
+ the dataset, find the word frequencies, plot the distributions, and output
+ statistics on the dataset.
+ We also used NumPy 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.numpy.org/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ to vectorize the computations and the Python natural language processing
+ module NLTK 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://nltk.org/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ to find stopwords.
+ To analyze the Million Song Dataset, we used a combination of Python, NumPy,
+ and pandas 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://pandas.pydata.org/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ We also used queries on a SQLite 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.sqlite.org/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ database of just the track metadata to avoid analyzing the full 300 GB
+ dataset.
+ Our graphs were created using Matplotlib 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://matplotlib.org/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ The database was optimized for counting and joining, and so we took advantage
+ of the speedups possible when querying a relational database.
 \end_layout
 
 \begin_layout Section
