@@ -90,16 +90,22 @@ Varun Ravishankar, vr2263 and Viktor Roytman, vr2262
 Introduction
 \end_layout
 
-\begin_layout Itemize
-Intro paragraph
-\end_layout
+\begin_layout Standard
+Our initial question was, 
+\begin_inset Quotes eld
+\end_inset
 
-\begin_layout Itemize
-motivation
-\end_layout
+does every song have to have the word baby in it?
+\begin_inset Quotes erd
+\end_inset
 
-\begin_layout Itemize
-explanation of problem
+ We turned to the Million Song Dataset and decided to look at several other
+ interesting qualities of the songs of the last century, such as how song
+ duration, tempo, and loudness have changed over the years.
+ ~~~~~~~~LYRICS PROBLEM EXPLANATION~~~~~~~~~~~~~.
+ For the analysis of the various metrics, we needed to filter bad data from
+ the dataset, then perform relatively simple operations on them, namely
+ averaging and binning.
 \end_layout
 
 \begin_layout Section
