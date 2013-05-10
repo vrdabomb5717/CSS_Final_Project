@@ -37,3 +37,4 @@ nosetests.xml
 
 /data/msd_summary_file.h5
 /data/track_metadata.db
+/data/*.zip
