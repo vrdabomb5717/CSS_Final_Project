@@ -26,13 +26,13 @@ def main():
 
     print('Statistics on the Distribution:')
     print('\tcount: {}'.format(len(durations)))
-    print('\tmean: {}'.format(np.mean(durations)))
-    print('\tstd: {}'.format(np.std(durations)))
-    print('\tmin: {}'.format(np.min(durations)))
-    print('\t25%: {}'.format(np.percentile(durations, 0.25)))
-    print('\t50%: {}'.format(np.percentile(durations, 0.5)))
-    print('\t75%: {}'.format(np.percentile(durations, 0.75)))
-    print('\tmax: {}'.format(np.max(durations)))
+    print('\tmean: {} minutes'.format(np.mean(durations)))
+    print('\tstd: {} minutes'.format(np.std(durations)))
+    print('\tmin: {} minutes'.format(np.min(durations)))
+    print('\t25%: {} minutes'.format(np.percentile(durations, 0.25)))
+    print('\t50%: {} minutes'.format(np.percentile(durations, 0.5)))
+    print('\t75%: {} minutes'.format(np.percentile(durations, 0.75)))
+    print('\tmax: {} minutes'.format(np.max(durations)))
 
 
 if __name__ == '__main__':
