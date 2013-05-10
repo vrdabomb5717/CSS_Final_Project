@@ -1,0 +1,567 @@
+%% LyX 2.0.5.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{geometry}
+\geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+\usepackage{color}
+\usepackage{babel}
+\usepackage{float}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage[authoryear]{natbib}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=true]
+ {hyperref}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\bibpunct[, ]{[}{]}{;}{a}{}{,}
+
+\makeatother
+
+\usepackage{xunicode}
+\begin{document}
+
+\title{APMA E4990 Final Project Report}
+
+
+\author{Varun Ravishankar, vr2263 and Viktor Roytman, vr2262}
+
+\maketitle
+
+\section{Introduction}
+
+It's no surprise that people value the songs of their youth and often
+react with disdain at newer music. The problem with this mindset is
+that it is no way to judge music; it is completely subjective. What
+we would like is an objective way to quantify and compare songs and
+determine who's right. As it happens, with the Million Song Dataset
+we can do just that \citep{Bertin-Mahieux2011}.
+
+We analyzed the Million Song Dataset in order to answer a few questions
+we had about the state of music and how it has changed over time.
+Our initial question was whether every song has the word ``baby''
+in its lyrics. From this we decided to do a general analysis of word
+frequency, taking into account the prevalence of common words, and
+to highlight our favorite words. Next we considered the question of
+how to see trends in music over time. To do this we would need some
+musical qualities that are inherently quantifiable. The metrics we
+decided to study are song duration, tempo, and loudness, and we investigated
+the distribution and change over time for each one. By answering these
+questions, we can identify trends in the state of music and determine
+whether historical events have had noticeable effects on these musical
+characteristics.
+
+In addition to our ``baby'' hypothesis, we had a few predictions
+for our metrics. There is a well-known phenomenon known as the ``loudness
+wars,'' so we predicted the loudness of songs to increase over time.
+As an aside, the measure of loudness in this case is dBFS, or decibels
+relative to full scale. In other words, for a digital medium and some
+encoding scheme, there is a maximum possible amplitude denoted 0 dBFS,
+and amplitudes smaller than that are negative. We also predicted that
+the tempo of songs would increase over time (there was no metal music
+in the 1940s).
+
+
+\section{Datasets}
+
+To explore music trends over time, we used the Million Song Dataset
+\citep{Bertin-Mahieux2011}. This dataset contains a collection of
+audio features and metadata for one million songs from 1920 until
+today, and is free for non-commercial use. This data was collected
+using the Echo Nest API and a copy of the musicbrainz server in December
+2010. This dataset includes information on releases, musical qualities
+like tempo and loudness, and tags. This dataset is split into HDF5
+files, a common format for data and scientific applications. The complete
+dataset is 300 GB, but we were able to focus on a smaller 300 MB dataset,
+\lstinline!msd_summary_file.h5!, that contained just the metadata
+without any audio analysis, similar artists, or tags. We also used
+a SQLite database (\lstinline!track_metadata.db!) containing most
+of the metadata on each track, including track ID, artist, and year.
+Finally, we used a list of 515,576 tracks in the dataset that also
+had year information, \lstinline!track_per_year.txt!.
+
+To explore song lyrics, we used another dataset available from the
+Million Song Dataset, the musiXmatch Dataset%
+\footnote{\url{http://labrosa.ee.columbia.edu/millionsong/musixmatch}%
+} \citep{Bertin-Mahieux2011}. This dataset provides word counts per
+song for the most common 5,000 words in the data, but only contains
+the lyrics for 237,662 tracks because of copyright restrictions plus
+the removal of instrumentals (defined as having three words or less)
+and duplicate tracks. The word counts are stored in bag of words style,
+meaning position information is lost. Since there are so many words
+in the entire dataset, the authors chose to limit the dataset to just
+the 5,000 most common words, and also decided to run a modified Porter-Stemmer
+program on the lyrics to create the counts. The dataset comes as two
+files, \lstinline!mxm_dataset_train.txt! and \lstinline!mxm_dataset_test.txt!,
+for standardizing machine learning tasks. Since we were not making
+predictions in our analysis, we cleaned up the training and test datasets
+and then concatenated the two files together.
+
+The data can be downloaded using the accompanying script \lstinline!download_msd.sh!.
+
+
+\section{Technology and Development Environment}
+
+Our technology stack was simple. Our programs consisted of scripts
+meant to be run on POSIX machines. We tested and ran our scripts on
+Fedora 18 and OS X 10.8.3, using Python 3%
+\footnote{\url{http://www.python.org/}%
+} and Bash%
+\footnote{\url{http://www.gnu.org/software/bash/}%
+}. For analyzing the lyrics dataset, we wrote scripts in Python to
+read in the dataset, find the word frequencies, plot the distributions,
+and output statistics on the dataset. We also used NumPy%
+\footnote{\url{http://www.numpy.org/}%
+} to vectorize the computations and the Python natural language processing
+module NLTK%
+\footnote{\url{http://nltk.org/}%
+} to find stopwords.
+
+To analyze the Million Song Dataset, we used a combination of Python,
+NumPy, and pandas%
+\footnote{\url{http://pandas.pydata.org/}%
+}. We also used queries on a SQLite%
+\footnote{\url{http://www.sqlite.org/}%
+} database of just the track metadata to avoid analyzing the full 300
+GB dataset. Our graphs were created using matplotlib%
+\footnote{\url{http://matplotlib.org/}%
+}. The database was optimized for counting and joining, and so we took
+advantage of the speedups possible when querying a relational database.
+
+
+\section{Lyrics}
+
+We first calculated the frequency of common words in songs. Because
+each word could appear in a single song more than once and heavily
+used words could heavily skew the word distribution, we chose to count
+a word occurrence only once per song. We wrote a Python script, \lstinline!read_lyrics.py!,
+to read in the lyrics dataset, parse the file, store the counts in
+an array, and then rank the counts. We maintained a reverse index
+of word to count to enable querying word frequency.
+
+We started with our initial hypothesis that the words ``baby'' and
+``love'' occurred in most songs. However, the actual frequency of
+``baby'' and ``love'' was far lower than our expectations, as
+seen in Table \ref{tab:Frequency-of-baby}:
+
+\begin{table}[H]
+
+
+\begin{centering}
+\begin{tabular}{|c|c|c|}
+\hline 
+Word & Rank & Frequency\tabularnewline
+\hline 
+\hline 
+baby & 110 & 13.35\%\tabularnewline
+\hline 
+love & 37 & 30.89\%\tabularnewline
+\hline 
+\end{tabular}\caption{Frequency of ``baby'' and ``love''\label{tab:Frequency-of-baby}}
+
+\par\end{centering}
+
+\end{table}
+
+
+Because these frequencies were far lower than what we expected, we
+investigated the overall distribution of words and their frequencies,
+as can be seen in Figure \ref{fig:Distribution-of-Lyrics}. Figure
+\ref{fig:Distribution-of-Lyrics} is a histogram of the word frequencies,
+and is heavily skewed. Most words have low frequencies, as indicated
+by the long tail in the histogram. This is further confirmed by the
+summary statistics on the lyrics distribution displayed in Table \ref{tab:Summary-Statistics-of-Lyrics}.
+The mean is relatively high, but the median is only 152. This evidence
+is compounded by the high standard deviation, indicating a heavily
+skewed distribution.
+
+\begin{figure}[H]
+\centering{}\includegraphics[scale=0.6]{data/graphs/lyrics_histogram}\caption{Distribution of Lyrics \label{fig:Distribution-of-Lyrics}}
+\end{figure}
+
+
+\begin{table}[H]
+\centering{}%
+\begin{tabular}{|c|c|}
+\hline 
+Statistic & Measure\tabularnewline
+\hline 
+\hline 
+Count & 5000\tabularnewline
+\hline 
+Mean & 3809.07\tabularnewline
+\hline 
+Standard Deviation & 12624.51\tabularnewline
+\hline 
+Min & 73\tabularnewline
+\hline 
+25\% & 120.0\tabularnewline
+\hline 
+50\% & 151.99\tabularnewline
+\hline 
+75\% & 179.49\tabularnewline
+\hline 
+Max & 188401\tabularnewline
+\hline 
+\end{tabular}\caption{Summary Statistics of Lyrics Distribution\label{tab:Summary-Statistics-of-Lyrics}}
+\end{table}
+
+
+Because of the skew in the data, we decided to look at the top 10
+words to get a sense of the highest frequencies. This data, shown
+in Table \ref{tab:Frequency-of-Top}, indicates that the top 10 words
+in the lyrics distribution are mostly stopwords, a term used in natural
+language processing to indicate words like articles and common prepositions
+that typically end a sentence and carry no special meaning. These
+stopwords occur in about 60\%-70\% of the data. Because they are so
+common, we decided that it was worth looking at terms that were not
+stopwords.
+
+\begin{table}[H]
+\centering{}%
+\begin{tabular}{|c|c|c|}
+\hline 
+Rank & Word & Frequency\tabularnewline
+\hline 
+\hline 
+1 & the & 79.27\%\tabularnewline
+\hline 
+2 & a & 77.19\%\tabularnewline
+\hline 
+3 & to & 75.43\%\tabularnewline
+\hline 
+4 & and & 74.02\%\tabularnewline
+\hline 
+5 & i & 73.25\%\tabularnewline
+\hline 
+6 & you & 70.17\%\tabularnewline
+\hline 
+7 & in & 67.36\%\tabularnewline
+\hline 
+8 & is & 64.63\%\tabularnewline
+\hline 
+9 & me & 63.58\%\tabularnewline
+\hline 
+10 & it & 62.91\%\tabularnewline
+\hline 
+\end{tabular}\caption{Frequency of Top 10 Words\label{tab:Frequency-of-Top}}
+\end{table}
+
+
+Using a list of stopwords provided by NLTK, we found the 10 most common
+words that were not stopwords, as seen in Table \ref{tab:Frequency-of-Top-Not-Stop}.
+This indicates that much of the top 50 words are stopwords, and that
+the rest of the common words only occur in about 30\%-40\% of the
+data.
+
+\begin{table}[H]
+\centering{}%
+\begin{tabular}{|c|c|c|}
+\hline 
+Rank & Word & Frequency\tabularnewline
+\hline 
+\hline 
+29 & know & 38.56\%\tabularnewline
+\hline 
+35 & like & 33.34\%\tabularnewline
+\hline 
+37 & time & 31.50\%\tabularnewline
+\hline 
+38 & love & 30.89\%\tabularnewline
+\hline 
+43 & see & 29.39\%\tabularnewline
+\hline 
+44 & come & 28.83\%\tabularnewline
+\hline 
+45 & go & 28.82\%\tabularnewline
+\hline 
+46 & one & 28.48\%\tabularnewline
+\hline 
+50 & get & 26.74\%\tabularnewline
+\hline 
+53 & never & 25.18\%\tabularnewline
+\hline 
+\end{tabular}\caption{Frequency of Top 10 Words that are not Stopwords\label{tab:Frequency-of-Top-Not-Stop}}
+\end{table}
+
+
+Finally, we were curious about the prevalence of swear words in music
+after anecdotally observing an increase in both the acceptance and
+occurrence of swear words in today's music. We created a list of colorful
+language and found their frequencies, as shown in Table \ref{tab:Frequency-of-Top-Swear}.
+Surprisingly, curse words occur in only 1\%-5\% of all songs. However,
+with the knowledge that this dataset contains 5000 words, this is
+still surprisingly high amount. The first curse word is only Rank
+294, while the last one in the table is Rank 1286.
+
+\begin{table}[H]
+\centering{}%
+\begin{tabular}{|c|c|c|}
+\hline 
+Rank & Word & Frequency\tabularnewline
+\hline 
+\hline 
+294 & fu{*}{*} & 5.17\%\tabularnewline
+\hline 
+333 & hell & 4.47\%\tabularnewline
+\hline 
+360 & shit & 4.14\%\tabularnewline
+\hline 
+416 & blow & 3.51\%\tabularnewline
+\hline 
+593 & ass & 2.26\%\tabularnewline
+\hline 
+614 & b{*}tch & 2.14\%\tabularnewline
+\hline 
+628 & n{*}{*}ga & 2.08\%\tabularnewline
+\hline 
+936 & fu{*}{*}in & 1.30\%\tabularnewline
+\hline 
+1093 & sex & 1.06\%\tabularnewline
+\hline 
+1286 & d{*}{*}k & 0.88\%\tabularnewline
+\hline 
+\end{tabular}\caption{Frequency of Top 10 Swear Words\label{tab:Frequency-of-Top-Swear}}
+\end{table}
+
+
+
+\section{Duration}
+
+The \lstinline!track_metadata.db! file includes a duration for all
+of the million songs and a year for about half of them. We collected
+the data by nesting a query for the count and average duration of
+songs by year in a query for the year and average duration where the
+count is at least 10 and the year information is present. We then
+created a line graph of average duration as a function of year, seen
+in Figure \ref{fig:Average-Song-Duration}. There is a very clear
+jump in average duration around 1970.
+
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.6]{data/graphs/graph_duration_v_time}\caption{Average Song Duration Over Time\label{fig:Average-Song-Duration}}
+
+\par\end{centering}
+
+\end{figure}
+
+
+The creation of the duration histogram is even more straightforward:
+it is just the binning of a query for duration. This histogram can
+be seen in Figure \ref{fig:Song-Duration-Distribution}. There are
+very few songs with exceptionally long duration, and we had no success
+confirming that the songs with the longest duration in the dataset
+were actually that long (30 - 60 minutes). The summary statistics
+for this distribution, displayed in Table \ref{tab:Summary-Statistics-of-Duration},
+verify this and tell us that there is a high spread but little variation
+for most songs.
+
+\begin{figure}[H]
+\centering{}\includegraphics[scale=0.6]{data/graphs/graph_duration_histogram}\caption{Song Duration Distribution\label{fig:Song-Duration-Distribution}}
+\end{figure}
+
+
+\begin{table}[H]
+\centering{}%
+\begin{tabular}{|c|c|}
+\hline 
+Statistic & Measure\tabularnewline
+\hline 
+\hline 
+Count & 1000000\tabularnewline
+\hline 
+Mean & 4.16 min\tabularnewline
+\hline 
+Standard Deviation & 2.10 min\tabularnewline
+\hline 
+Min & 0.0052 min\tabularnewline
+\hline 
+25\% & 0.30 min\tabularnewline
+\hline 
+50\% & 0.45 min\tabularnewline
+\hline 
+75\% & 0.58 min\tabularnewline
+\hline 
+Max & 50.58 min\tabularnewline
+\hline 
+\end{tabular}\caption{Summary Statistics of Duration Distribution\label{tab:Summary-Statistics-of-Duration}}
+\end{table}
+
+
+
+\section{Loudness}
+
+The loudness information is in a summary HDF5 file, \lstinline!msd_summary_file.h5!.
+We pick out only the relevant columns, which are \lstinline!track_id!
+and \lstinline!loudness!. We then step through another file, \lstinline!tracks_per_year.txt!,
+assembling lists of loudnesses per year. Finally, we filter out years
+with fewer than 10 songs, and take the average of the loudnesses.
+The resulting graph clearly shows an upward trend in loudness over
+time, and can be seen in Figure \ref{fig:Average-Loudness-per}.
+
+\begin{figure}[H]
+\centering{}\includegraphics[scale=0.6]{data/graphs/graph_loudness_v_time}\caption{Average Loudness per Year \label{fig:Average-Loudness-per}}
+\end{figure}
+
+
+The loudness histogram, seen in Figure \ref{fig:Song-Loudness-Distribution},
+is a simple binning of the loudness information from the summary file.
+It is skewed heavily toward a loudness of 0, since most of the songs
+in the dataset are recent, and the more recent songs tend to be louder.
+This is further confirmed by Table \ref{tab:Summary-Statistics-of-Loudness},
+which displays the summary statistics for loudness. We can see that
+the distribution is heavily skewed by the fact that the mean and median
+are so far apart, with further evidence given by the large standard
+deviation and large extremes given by the min and max.
+
+\begin{figure}[H]
+\centering{}\includegraphics[scale=0.6]{data/graphs/graph_loudness_histogram}\caption{Song Loudness Distribution \label{fig:Song-Loudness-Distribution}}
+\end{figure}
+
+
+\begin{table}[H]
+\centering{}%
+\begin{tabular}{|c|c|}
+\hline 
+Statistic & Measure\tabularnewline
+\hline 
+\hline 
+Count & 1000000\tabularnewline
+\hline 
+Mean & -10.12 dBFS\tabularnewline
+\hline 
+Standard Deviation & 5.20 dBFS\tabularnewline
+\hline 
+Min & -58.18 dBFS\tabularnewline
+\hline 
+25\% & -33.03 dBFS\tabularnewline
+\hline 
+50\% & -30.26 dBFS\tabularnewline
+\hline 
+75\% & -28.54 dBFS\tabularnewline
+\hline 
+Max & 4.32 dBFS\tabularnewline
+\hline 
+\end{tabular}\caption{Summary Statistics of Loudness Distribution\label{tab:Summary-Statistics-of-Loudness}}
+\end{table}
+
+
+
+\section{Tempo}
+
+The acquisition method of the tempo information is very similar to
+that of the loudness information, since it is also in the summary
+HDF5 file. The resulting graph, seen in Figure \ref{fig:Average-Tempo-per},
+shows wide swings in average tempo for the early years in the dataset,
+with a severe leveling off in recent years. It is not clear why there
+are such swings for the early years. It could be an artifact of the
+dataset or a sign of fashions in music changing quickly. In any case,
+generally tempo has increased with time.
+
+\begin{figure}[H]
+\centering{}\includegraphics[scale=0.6]{data/graphs/graph_tempo_v_time}\caption{Average Tempo per Year \label{fig:Average-Tempo-per}}
+\end{figure}
+
+
+The histogram, seen in Figure \ref{fig:Song-Tempo-Distribution},
+shows something like a normal distribution for tempo, with a longer
+tail of high tempo songs. We excluded songs with a tempo of 0, since
+we considered those particular songs to be untagged. However, like
+duration, we had no success confirming that the songs with the highest
+or lowest tempos were catalogued correctly.
+
+The summary statistics for the distribution, shown in Table \ref{tab:Summary-Statistics-of-Tempo},
+show a high spread for the values and show that while the distribution
+looks roughly Gaussian, is very skewed. A high standard deviation
+only confirms this.
+
+\begin{figure}[H]
+\centering{}\includegraphics[scale=0.6]{data/graphs/graph_tempo_histogram}\caption{Song Tempo Distribution \label{fig:Song-Tempo-Distribution}}
+\end{figure}
+
+
+\begin{table}[H]
+\centering{}%
+\begin{tabular}{|c|c|}
+\hline 
+Statistic & Measure\tabularnewline
+\hline 
+\hline 
+Count & 996770\tabularnewline
+\hline 
+Mean & 124.29 bpm\tabularnewline
+\hline 
+Standard Deviation & 34.39 bpm\tabularnewline
+\hline 
+Min & 7.36 bpm\tabularnewline
+\hline 
+25\% & 39.77 bpm\tabularnewline
+\hline 
+50\% & 45.02 bpm\tabularnewline
+\hline 
+75\% & 50.00 bpm\tabularnewline
+\hline 
+Max & 302.3\tabularnewline
+\hline 
+\end{tabular}\caption{Summary Statistics of Tempo Distribution\label{tab:Summary-Statistics-of-Tempo}}
+\end{table}
+
+
+
+\section{Future Work}
+
+In the future, we would like to focus on genre analysis. We originally
+planned to use Amazon EC2, Amazon EMR, and Hadoop to explore the Million
+Song Dataset. We planned to find genres and then calculate duration,
+tempo, volume, and other features per genre. This did not work out
+because when we explored some of the HDF5 files in the dataset, the
+genres were set to empty strings. This was true even when we explored
+the full dataset. To further complicate matters, the dataset did not
+list genre as a valid field. Instead, it seems that we would have
+had to explore the musicbrainz tags, which are stored as arrays of
+strings per song. Because these tags are only a weak indicator of
+genre and because we tried to avoid looking at the full dataset as
+much as possible, we decided it would be best to explore an alternative
+dataset. We began to look at the Last.fm dataset%
+\footnote{\url{http://labrosa.ee.columbia.edu/millionsong/lastfm}%
+} \citep{Bertin-Mahieux2011}, but ran out of time before we could
+explore this fully. We also wanted to look at lyrics distribution
+over time, but the format of the datasets did not make that straightforward.
+Given more time, we would look into the frequencies of words used
+over time, whether the top words changed over time, and whether words
+such as curse words starting becoming more prevalent in the 80s and
+90s.
+
+
+\section{Conclusion}
+
+Most of our hypotheses were somewhat off the mark. While ``love,''
+discounting the stopwords, is one of the most common words, ``baby''
+is much further down in rank, contrary to our expectations. The most
+common of these words are ``know,'' ``like,'' and ``time.''
+In addition, fu{*}{*} is a surprisingly common word in songs, occurring
+in over 5\% of all tracks.
+
+Our analysis of the metrics reveal some interesting discoveries. There
+is an obvious jump in duration around 1970, indicative of better music
+storage technology, and most songs don't deviate far from around 4
+minutes in duration. Loudness increases more or less steadily over
+the years, and recently it has been getting rather close to 0 dBFS.
+Surprisingly, there are large swings in average tempo up until the
+1960s or so, but after around 1990 the average tempo levels off. This
+may be indicative of a trend toward greater homogeneity in songs in
+recent years.
+
+\bibliographystyle{ACM-Reference-Format-Journals}
+\bibliography{Final_Project_Report}
+
+\end{document}
