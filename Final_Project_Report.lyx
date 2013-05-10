@@ -90,16 +90,74 @@ Varun Ravishankar, vr2263 and Viktor Roytman, vr2262
 Introduction
 \end_layout
 
-\begin_layout Itemize
-Intro paragraph
+\begin_layout Standard
+It's no surprise that people value the songs of their youth and often react
+ with disdain at newer music.
+ The problem with this mindset is that it is no way to judge music; it is
+ completely subjective.
+ What we would like is an objective way to quantify and compare songs and
+ determine who's right.
+ As it happens, with the Million Song Dataset we can do just that 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bertin-Mahieux2011"
+
+\end_inset
+
+.
 \end_layout
 
-\begin_layout Itemize
-motivation
+\begin_layout Standard
+We analyzed the Million Song Dataset in order to answer a few questions
+ we had about the state of music and how it has changed over time.
+ Our initial question was whether every song has the word 
+\begin_inset Quotes eld
+\end_inset
+
+baby
+\begin_inset Quotes erd
+\end_inset
+
+ in its lyrics.
+ From this we decided to do a general analysis of word frequency, taking
+ into account the prevalence of common words, and to highlight our favorite
+ words.
+ Next we considered the question of how to see trends in music over time.
+ To do this we would need some musical qualities that are inherently quantifiabl
+e.
+ The metrics we decided to study are song duration, tempo, and loudness,
+ and we investigated the distribution and change over time for each one.
+ By answering these questions, we can identify trends in the state of music
+ and determine whether historical events have had noticeable effects on
+ these musical characteristics.
 \end_layout
 
-\begin_layout Itemize
-explanation of problem
+\begin_layout Standard
+In addition to our 
+\begin_inset Quotes eld
+\end_inset
+
+baby
+\begin_inset Quotes erd
+\end_inset
+
+ hypothesis, we had a few predictions for our metrics.
+ There is a well-known phenomenon known as the 
+\begin_inset Quotes eld
+\end_inset
+
+loudness wars,
+\begin_inset Quotes erd
+\end_inset
+
+ so we predicted the loudness of songs to increase over time.
+ As an aside, the measure of loudness in this case is dBFS, or decibels
+ relative to full scale.
+ In other words, for a digital medium and some encoding scheme, there is
+ a maximum possible amplitude denoted 0 dBFS, and amplitudes smaller than
+ that are negative.
+ We also predicted that the tempo of songs would increase over time (there
+ was no metal music in the 1940s).
 \end_layout
 
 \begin_layout Section
@@ -200,12 +258,12 @@ key "Bertin-Mahieux2011"
 .
  This dataset provides word counts per song for the most common 5,000 words
  in the data, but only contains the lyrics for 237,662 tracks because of
- copyright restrictions and the removal of instrumentals (defined as having
+ copyright restrictions plus the removal of instrumentals (defined as having
  three words or less) and duplicate tracks.
  The word counts are stored in bag of words style, meaning position information
  is lost.
  Since there are so many words in the entire dataset, the authors chose
- to limit the set to just the 5,000 most common words, and also decided
+ to limit the dataset to just the 5,000 most common words, and also decided
  to run a modified Porter-Stemmer program on the lyrics to create the counts.
  The dataset comes as two files, 
 \begin_inset listings
@@ -346,7 +404,10 @@ http://nltk.org/
 \end_inset
 
  to find stopwords.
- To analyze the Million Song Dataset, we used a combination of Python, NumPy,
+\end_layout
+
+\begin_layout Standard
+To analyze the Million Song Dataset, we used a combination of Python, NumPy,
  and pandas
 \begin_inset Foot
 status collapsed
@@ -3056,7 +3117,7 @@ track_metadata.db
  half of them.
  We collected the data by nesting a query for the count and average duration
  of songs by year in a query for the year and average duration where the
- count is at least 10.
+ count is at least 10 and the year information is present.
  We then created a line graph of average duration as a function of year,
  seen in Figure 
 \begin_inset CommandInset ref
@@ -3504,6 +3565,17 @@ reference "fig:Song-Loudness-Distribution"
 , is a simple binning of the loudness information from the summary file.
  It is skewed heavily toward a loudness of 0, since most of the songs in
  the dataset are recent, and the more recent songs tend to be louder.
+ This is further confirmed by Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Summary-Statistics-of-Loudness"
+
+\end_inset
+
+, which displays the summary statistics for loudness.
+ We can see that the distribution is heavily skewed by the fact that the
+ mean and median are so far apart, with further evidence given by the large
+ standard deviation and large extremes given by the min and max.
 \end_layout
 
 \begin_layout Standard
@@ -3749,6 +3821,13 @@ Max
 
 \begin_layout Plain Layout
 Summary Statistics of Loudness Distribution
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Summary-Statistics-of-Loudness"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -3833,8 +3912,23 @@ reference "fig:Song-Tempo-Distribution"
 
 , shows something like a normal distribution for tempo, with a longer tail
  of high tempo songs.
+ We excluded songs with a tempo of 0, since we considered those particular
+ songs to be untagged.
  However, like duration, we had no success confirming that the songs with
- the highest or lowest temples were catalogued correctly.
+ the highest or lowest tempos were catalogued correctly.
+\end_layout
+
+\begin_layout Standard
+The summary statistics for the distribution, shown in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Summary-Statistics-of-Tempo"
+
+\end_inset
+
+, show a high spread for the values and show that while the distribution
+ looks roughly Gaussian, is very skewed.
+ A high standard deviation only confirms this.
 \end_layout
 
 \begin_layout Standard
@@ -4116,6 +4210,13 @@ Max
 
 \begin_layout Plain Layout
 Summary Statistics of Tempo Distribution
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Summary-Statistics-of-Tempo"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -4176,6 +4277,11 @@ key "Bertin-Mahieux2011"
 \end_inset
 
 , but ran out of time before we could explore this fully.
+ We also wanted to look at lyrics distribution over time, but the format
+ of the datasets did not make that straightforward.
+ Given more time, we would look into the frequencies of words used over
+ time, whether the top words changed over time, and whether words such as
+ curse words starting becoming more prevalent in the 80s and 90s.
 \end_layout
 
 \begin_layout Section
