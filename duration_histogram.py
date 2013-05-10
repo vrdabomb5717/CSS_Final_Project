@@ -14,7 +14,6 @@ def main():
     curs = conn.cursor()
     curs.execute('select duration from songs;')
     dur_data = curs.fetchall()
-    sigma = np.std(dur_data)
     durations = [dur[0] / 60 for dur in dur_data]
 
     rc('text', usetex=True)
@@ -24,7 +23,16 @@ def main():
     plt.xlabel('Duration (minutes)')
     plt.ylabel('Count')
     plt.savefig('data/graphs/graph_duration_histogram.png')
-    print('Standard deviation: {}'.format(sigma))
+
+    print('Statistics on the Distribution:')
+    print('\tcount: {}'.format(len(durations)))
+    print('\tmean: {}'.format(np.mean(durations)))
+    print('\tstd: {}'.format(np.std(durations)))
+    print('\tmin: {}'.format(np.min(durations)))
+    print('\t25%: {}'.format(np.percentile(durations, 0.25)))
+    print('\t50%: {}'.format(np.percentile(durations, 0.5)))
+    print('\t75%: {}'.format(np.percentile(durations, 0.75)))
+    print('\tmax: {}'.format(np.max(durations)))
 
 
 if __name__ == '__main__':
