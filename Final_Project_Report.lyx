@@ -114,7 +114,10 @@ key "Bertin-Mahieux2011"
 
 \end_inset
 
-
+.
+ This dataset contains a collection of audio features and metadata for one
+ million songs from 1920 until today, and is free for non-commercial use.
+ It 
 \end_layout
 
 \begin_layout Itemize
@@ -415,10 +418,6 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename data/graphs/graph_duration_v_time.png
@@ -512,7 +511,72 @@ name "fig:Song-Duration-Distribution"
 \end_layout
 
 \begin_layout Section
-Volume
+Loudness
+\end_layout
+
+\begin_layout Standard
+The loudness information is in a summary HDF5 file, 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+msd_summary_file.h5
+\end_layout
+
+\end_inset
+
+.
+ We pick out only the relevant columns, which are 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+track_id
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+loudness
+\end_layout
+
+\end_inset
+
+.
+ We then step through another file, 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+tracks_per_year.txt
+\end_layout
+
+\end_inset
+
+, assembling lists of loudnesses per year.
+ Finally, we filter out years with fewer than 10 songs, and take the average
+ of the loudnesses.
+ The resulting graph clearly shows an upward trend in loudness over time,
+ and can be seen in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Average-Loudness-per"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -553,6 +617,19 @@ name "fig:Average-Loudness-per"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The loudness histogram, seen in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Song-Loudness-Distribution"
+
+\end_inset
+
+, is a simple binning of the loudness information from the summary file.
+ It is skewed heavily toward a loudness of 0, since most of the songs in
+ the dataset are recent, and the more recent songs tend to be louder.
 \end_layout
 
 \begin_layout Standard
@@ -600,6 +677,24 @@ Tempo
 \end_layout
 
 \begin_layout Standard
+The acquisition method of the tempo information is very similar to that
+ of the loudness information, since it is also in the summary HDF5 file.
+ The resulting graph, seen in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Average-Tempo-per"
+
+\end_inset
+
+, shows wide swings in average tempo for the early years in the dataset,
+ with a severe leveling off in recent years.
+ It is not clear why there are such swings for the early years.
+ It could be an artifact of the dataset or a sign of fashions in music changing
+ quickly.
+ In any case, generally tempo has increased with time.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 placement H
 wide false
@@ -637,6 +732,20 @@ name "fig:Average-Tempo-per"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The histogram, seen in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Song-Tempo-Distribution"
+
+\end_inset
+
+, shows something like a normal distribution for tempo, with a longer tail
+ of high tempo songs.
+ However, like duration, we had no success confirming that the songs with
+ the highest or lowest temples were catalogued correctly.
 \end_layout
 
 \begin_layout Standard
