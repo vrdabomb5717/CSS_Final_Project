@@ -5,6 +5,7 @@ import sqlite3
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt, rc
+import numpy as np
 
 
 def main():
@@ -13,6 +14,7 @@ def main():
     curs = conn.cursor()
     curs.execute('select duration from songs;')
     dur_data = curs.fetchall()
+    sigma = np.std(dur_data)
     durations = [dur[0] / 60 for dur in dur_data]
 
     rc('text', usetex=True)
@@ -22,6 +24,7 @@ def main():
     plt.xlabel('Duration (minutes)')
     plt.ylabel('Count')
     plt.savefig('data/graphs/graph_duration_histogram.png')
+    print('Standard deviation: {}'.format(sigma))
 
 
 if __name__ == '__main__':

@@ -5,6 +5,7 @@ import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt, rc
 import pandas as pd
+import numpy as np
 
 
 # Pick out the loudness information.
@@ -22,6 +23,7 @@ def main():
     plt.xlabel('Loudness (dBFS)')
     plt.ylabel('Count')
     plt.savefig('data/graphs/graph_loudness_histogram.png')
+    print('Standard deviation: {}'.format(np.std(SUMMARY)))
 
 
 if __name__ == '__main__':
