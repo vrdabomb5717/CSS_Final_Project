@@ -28,13 +28,13 @@ def main():
 
     print('Statistics on the Distribution:')
     print('\tcount: {}'.format(len(SUMMARY)))
-    print('\tmean: {}'.format(np.mean(SUMMARY)))
-    print('\tstd: {}'.format(np.std(SUMMARY)))
-    print('\tmin: {}'.format(np.min(SUMMARY)))
-    print('\t25%: {}'.format(np.percentile(SUMMARY, 0.25)))
-    print('\t50%: {}'.format(np.percentile(SUMMARY, 0.5)))
-    print('\t75%: {}'.format(np.percentile(SUMMARY, 0.75)))
-    print('\tmax: {}'.format(np.max(SUMMARY)))
+    print('\tmean: {} bpm'.format(np.mean(SUMMARY)))
+    print('\tstd: {} bpm'.format(np.std(SUMMARY)))
+    print('\tmin: {} bpm'.format(np.min(SUMMARY)))
+    print('\t25%: {} bpm'.format(np.percentile(SUMMARY, 0.25)))
+    print('\t50%: {} bpm'.format(np.percentile(SUMMARY, 0.5)))
+    print('\t75%: {} bpm'.format(np.percentile(SUMMARY, 0.75)))
+    print('\tmax: {} bpm'.format(np.max(SUMMARY)))
 
 
 if __name__ == '__main__':
