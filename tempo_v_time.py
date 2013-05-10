@@ -27,30 +27,27 @@ def id_to_tempo(track_id):
 
 def year_lists():
     """
-    Return a list of lists containing a year and a list of durations for songs
-    from that year.
+    Return the next list containing a year and a list of tempoes for songs from
+    that year.
 
     """
-    result = [[[], []]]
-    count = 0
     with open('data/tracks_per_year.txt') as year_data:
         cur_yr, track_id, _, _ = year_data.readline().strip().split('<SEP>')
         cur_yr = int(cur_yr)
-        dur = id_to_tempo(str(track_id))
-        result[0][0] = cur_yr
-        result[0][1].append(dur)
+        dur = id_to_tempo(track_id)
+        result = [cur_yr, [dur]]
         for line in year_data:
             cur_yr, track_id, _, _ = line.strip().split('<SEP>')
             cur_yr = int(cur_yr)
-            dur = id_to_tempo(str(track_id))
+            dur = id_to_tempo(track_id)
             # Append a duration if the year matches.
-            if cur_yr == result[count][0]:
-                result[count][1].append(dur)
-            # Append a new year list if the year doesn't match.
+            if cur_yr == result[0]:
+                result[1].append(dur)
+            # Reset the year list if the year doesn't match.
             else:
-                result.append([cur_yr, [dur]])
-                count += 1
-    return result
+                yield result
+                result = [cur_yr, [dur]]
+        yield result
 
 
 def averager(tempoes):
