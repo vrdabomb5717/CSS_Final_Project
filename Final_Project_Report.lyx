@@ -4304,6 +4304,66 @@ key "Bertin-Mahieux2011"
 Conclusion
 \end_layout
 
+\begin_layout Standard
+Most of our hypotheses were somewhat off the mark.
+ While 
+\begin_inset Quotes eld
+\end_inset
+
+love,
+\begin_inset Quotes erd
+\end_inset
+
+ discounting the stopwords, is one of the most common words, 
+\begin_inset Quotes eld
+\end_inset
+
+baby
+\begin_inset Quotes erd
+\end_inset
+
+ is much further down in rank, contrary to our expectations.
+ The most common of these words are 
+\begin_inset Quotes eld
+\end_inset
+
+know,
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+like,
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+time.
+\begin_inset Quotes erd
+\end_inset
+
+ In addition, fu** is a surprisingly common word in songs, occurring in
+ over 5% of all tracks.
+\end_layout
+
+\begin_layout Standard
+Our analysis of the metrics reveal some interesting discoveries.
+ There is an obvious jump in duration around 1970, indicative of better
+ music storage technology, and most songs don't deviate far from around
+ 4 minutes in duration.
+ Loudness increases more or less steadily over the years, and recently it
+ has been getting rather close to 0 dBFS.
+ Surprisingly, there are large swings in average tempo up until the 1960s
+ or so, but after around 1990 the average tempo levels off.
+ This may be indicative of a trend toward greater homogeneity in songs in
+ recent years.
+\end_layout
+
 \begin_layout Section
 References
 \end_layout
