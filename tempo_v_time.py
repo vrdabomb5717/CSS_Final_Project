@@ -9,6 +9,7 @@ import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt, rc
 import pandas as pd
+import numpy as np
 
 
 # We only want part of the hdfs file.
@@ -34,25 +35,28 @@ def year_lists():
     with open('data/tracks_per_year.txt') as year_data:
         cur_yr, track_id, _, _ = year_data.readline().strip().split('<SEP>')
         cur_yr = int(cur_yr)
-        dur = id_to_tempo(track_id)
-        result = [cur_yr, [dur]]
+        tempo = id_to_tempo(track_id)
+        result = [cur_yr, [tempo]]
         for line in year_data:
             cur_yr, track_id, _, _ = line.strip().split('<SEP>')
             cur_yr = int(cur_yr)
-            dur = id_to_tempo(track_id)
-            # Append a duration if the year matches.
+            tempo = id_to_tempo(track_id)
+            # Append a tempo if the year matches.
             if cur_yr == result[0]:
-                result[1].append(dur)
+                result[1].append(tempo)
             # Reset the year list if the year doesn't match.
             else:
                 yield result
-                result = [cur_yr, [dur]]
+                result = [cur_yr, [tempo]]
         yield result
 
 
 def averager(tempoes):
-    """Given a list of tempoes, find the average."""
-    return sum(tempoes) / len(tempoes)
+    """Given a list of tempoes, remove the 0 values and find the average."""
+    tempoes = np.array(tempoes)
+    tempoes = tempoes[tempoes != 0]
+    return np.mean(tempoes)
+    
 
 
 def main():
