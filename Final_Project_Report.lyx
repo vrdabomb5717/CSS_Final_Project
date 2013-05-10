@@ -117,16 +117,139 @@ key "Bertin-Mahieux2011"
 .
  This dataset contains a collection of audio features and metadata for one
  million songs from 1920 until today, and is free for non-commercial use.
- It 
+ This data was collected using the Echo Nest API and a copy of the musicbrainz
+ server in December 2010.
+ This dataset includes information on releases, musical qualities like tempo
+ and loudness, and tags.
+ This dataset is split into HDF5 files, a common format for data and scientific
+ applications.
+ The complete dataset is 300 GB, but we were able to focus on a smaller
+ 300 MB dataset, 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+msd_summary_file.h5
 \end_layout
 
-\begin_layout Itemize
-List the MSD datasets we used
+\end_inset
+
+, that contained just the metadata without any audio analysis, similar artists,
+ or tags.
+ We also used a SQLite database (
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+track_metadata.db
 \end_layout
 
-\begin_layout Itemize
-List the specific ones we looked at, and how we transformed/preprocessed
- them
+\end_inset
+
+) containing most of the metadata on each track, including track ID, artist,
+ and year.
+ Finally, we used a list of 515,576 tracks in the dataset that also had
+ year information, 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+track_per_year.txt
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+To explore song lyrics, we used another dataset available from the Million
+ Song Dataset, the musiXmatch Dataset
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://labrosa.ee.columbia.edu/millionsong/musixmatch
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bertin-Mahieux2011"
+
+\end_inset
+
+.
+ This dataset provides word counts per song for the most common 5,000 words
+ in the data, but only contains the lyrics for 237,662 tracks because of
+ copyright restrictions and the removal of instrumentals (defined as having
+ three words or less) and duplicate tracks.
+ The word counts are stored in bag of words style, meaning position information
+ is lost.
+ Since there are so many words in the entire dataset, the authors chose
+ to limit the set to just the 5,000 most common words, and also decided
+ to run a modified Porter-Stemmer program on the lyrics to create the counts.
+ The dataset comes as two files, 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+mxm_dataset_train.txt
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+mxm_dataset_test.txt
+\end_layout
+
+\end_inset
+
+, for standardizing machine learning tasks.
+ Since we were not making predictions in our analysis, we cleaned up the
+ training and test datasets and then concatenated the two files together.
+\end_layout
+
+\begin_layout Standard
+The data can be downloaded using the accompanying script 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+download_msd.sh
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
@@ -137,7 +260,7 @@ Technology and Development Environment
 Our technology stack was simple.
  Our programs consisted of scripts meant to be run on POSIX machines.
  We tested and ran our scripts on Fedora 18 and OS X 10.8.3, using Python
- 3 
+ 3
 \begin_inset Foot
 status collapsed
 
@@ -157,7 +280,7 @@ http://www.python.org/
 
 \end_inset
 
- and Bash 
+ and Bash
 \begin_inset Foot
 status collapsed
 
@@ -181,7 +304,7 @@ http://www.gnu.org/software/bash/
  For analyzing the lyrics dataset, we wrote scripts in Python to read in
  the dataset, find the word frequencies, plot the distributions, and output
  statistics on the dataset.
- We also used NumPy 
+ We also used NumPy
 \begin_inset Foot
 status collapsed
 
@@ -202,7 +325,7 @@ http://www.numpy.org/
 \end_inset
 
  to vectorize the computations and the Python natural language processing
- module NLTK 
+ module NLTK
 \begin_inset Foot
 status collapsed
 
@@ -224,7 +347,7 @@ http://nltk.org/
 
  to find stopwords.
  To analyze the Million Song Dataset, we used a combination of Python, NumPy,
- and pandas 
+ and pandas
 \begin_inset Foot
 status collapsed
 
@@ -245,7 +368,7 @@ http://pandas.pydata.org/
 \end_inset
 
 .
- We also used queries on a SQLite 
+ We also used queries on a SQLite
 \begin_inset Foot
 status collapsed
 
@@ -267,7 +390,7 @@ http://www.sqlite.org/
 
  database of just the track metadata to avoid analyzing the full 300 GB
  dataset.
- Our graphs were created using matplotlib 
+ Our graphs were created using matplotlib
 \begin_inset Foot
 status collapsed
 
@@ -786,6 +909,10 @@ name "fig:Song-Tempo-Distribution"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Future Work
 \end_layout
 
 \begin_layout Section
