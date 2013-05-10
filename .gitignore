@@ -34,3 +34,6 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+/data/msd_summary_file.h5
+/data/track_metadata.db
