@@ -39,3 +39,5 @@ nosetests.xml
 /data/track_metadata.db
 /data/*.zip
 /data/mxm.txt
+/lyrics_histogram_10_bins.png
+/lyrics_histogram_all_bins.png
