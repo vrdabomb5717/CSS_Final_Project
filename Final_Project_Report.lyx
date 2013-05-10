@@ -3056,7 +3056,7 @@ track_metadata.db
  half of them.
  We collected the data by nesting a query for the count and average duration
  of songs by year in a query for the year and average duration where the
- count is at least 10.
+ count is at least 10 and the year information is present.
  We then created a line graph of average duration as a function of year,
  seen in Figure 
 \begin_inset CommandInset ref
