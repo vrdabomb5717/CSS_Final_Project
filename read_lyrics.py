@@ -88,45 +88,32 @@ def get_word_index(word, words):
         return None
 
 
-def plot_histogram(top_counts, words):
+def plot_histogram(counts):
     """Plot lyrics distribution and save plots to disk."""
-    counts = [count for count, word in top_counts]
-    words = [words[word] for count, word in top_counts]
-
     rc('text', usetex=True)
-    plt.hist(counts, bins=20)
+    ind = np.arange(len(counts)) + 1
+    plt.bar(ind, counts)
     plt.title('Lyrics Distribution for 237,662 Tracks')
     plt.xlabel('Ranking of Word')
     plt.ylabel('Number of Tracks')
-    plt.savefig('data/graphs/lyrics_histogram_10_bins.png')
-    plt.clf()
-
-    rc('text', usetex=True)
-    plt.hist(counts, bins=len(words))
-    plt.title('Lyrics Distribution of All {} Words'.format(len(words)))
-    plt.xlabel('Ranking of Word')
-    plt.ylabel('Number of Tracks')
-    plt.savefig('data/graphs/lyrics_histogram_all_bins.png')
+    plt.savefig('data/graphs/lyrics_histogram.png')
     plt.clf()
 
 
-def bad_statistics(badfile, words, top_counts, num_songs):
+def bad_statistics(badfile, words, counts, num_songs):
     """Calculate statistics on swear words."""
-    a = [count for count, word in top_counts]
-    b = [words[word] for count, word in top_counts]
-
     bads = open(badfile)
     bads = bads.readlines()
     bads = [x.strip() for x in bads]
     bads = [x for x in bads if x.isalpha()]
     bad1 = list(map(stem_word, bads))
-    bad2 = {(x, b.index(x)) for x in bad1 if x in words}
+    bad2 = {(x, words.index(x)) for x in bad1 if x in words}
     bad2 = sorted(list(bad2), key=lambda x: x[1])
 
     print("Some statistics on swear words:")
 
     for word, rank in bad2:
-        percentage = a[rank] / num_songs
+        percentage = counts[rank] / num_songs
         print("\tRank {}: {}, with {}%".format(rank, word, percentage * 100))
 
 
@@ -139,7 +126,7 @@ def main():
 
     infile = args.infilename
     word_counts, words, num_songs = read_lyrics_file(infile)
-    top_counts = [(x, i) for i, x in enumerate(word_counts)]
+    top_counts = ((x, i) for i, x in enumerate(word_counts))
     top_counts = sorted(top_counts, key=lambda x: x[0], reverse=True)
     b = [words[word] for count, word in top_counts]
 
@@ -173,10 +160,23 @@ def main():
                 print("\tRank {}: {} with {}%".format(rank + 1, words[word], percentage * 100))
                 words_printed += 1
 
-    plot_histogram(top_counts, words)
+    counts = np.array([count for count, word in top_counts])
 
     print()
-    bad_statistics("data/bad.txt", words, top_counts, num_songs)
+    print("Statistics on the Distribution:")
+    print("\tcount: {}".format(len(counts)))
+    print("\tmean: {}".format(np.mean(counts)))
+    print("\tstd: {}".format(np.std(counts)))
+    print("\tmin: {}".format(np.min(counts)))
+    print("\t25%: {}".format(np.percentile(counts, .25)))
+    print("\t50%: {}".format(np.percentile(counts, .50)))
+    print("\t75%: {}".format(np.percentile(counts, .75)))
+    print("\tmax: {}".format(np.max(counts)))
+
+    plot_histogram(counts)
+
+    print()
+    bad_statistics("data/bad.txt", b, counts, num_songs)
 
 
 if __name__ == '__main__':
