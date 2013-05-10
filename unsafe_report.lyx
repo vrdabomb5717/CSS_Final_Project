@@ -91,18 +91,37 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Our initial question was, 
+We analyzed the Million Song Dataset in order to answer a few questions
+ we had about the state of music and how it has changed over time.
+ Our initial question was whether every song has the word 
 \begin_inset Quotes eld
 \end_inset
 
-does every song have to have the word baby in it?
+baby
 \begin_inset Quotes erd
 \end_inset
 
- We turned to the Million Song Dataset and decided to look at several other
- interesting qualities of the songs of the last century, such as how song
- duration, tempo, and loudness have changed over the years.
- ~~~~~~~~LYRICS PROBLEM EXPLANATION~~~~~~~~~~~~~.
+ in its lyrics.
+ We expanded this to a general analysis of words in song lyrics, and we
+ decided to look at several other interesting qualities of the songs of
+ the last century., The metrics we chose were song duration, tempo, and loudness,
+ and we investigated the distribution and change over time for each one.
+ By answering these questions, we can identify trends in the state of music
+ and try to identify if historical events have had noticeable effects on
+ musical characteristics.
+ We can also confirm or deny our hypothesis on the word 
+\begin_inset Quotes eld
+\end_inset
+
+baby.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+~~~~~~~~LYRICS PROBLEM EXPLANATION~~~~~~~~~~~~~?.
  For the analysis of the various metrics, we needed to filter bad data from
  the dataset, then perform relatively simple operations on them, namely
  averaging and binning.
