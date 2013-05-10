@@ -3,6 +3,9 @@
 \begin_document
 \begin_header
 \textclass article
+\begin_preamble
+\bibpunct[, ]{[}{]}{;}{a}{}{,}
+\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language english
@@ -42,7 +45,7 @@
 \use_esint 1
 \use_mhchem 1
 \use_mathdots 1
-\cite_engine basic
+\cite_engine natbib_authoryear
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -101,6 +104,17 @@ explanation of problem
 
 \begin_layout Section
 Datasets
+\end_layout
+
+\begin_layout Standard
+To explore music trends over time, we used the Million Song Dataset 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bertin-Mahieux2011"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -250,7 +264,7 @@ http://www.sqlite.org/
 
  database of just the track metadata to avoid analyzing the full 300 GB
  dataset.
- Our graphs were created using Matplotlib 
+ Our graphs were created using matplotlib 
 \begin_inset Foot
 status collapsed
 
@@ -279,16 +293,390 @@ http://matplotlib.org/
 Lyrics
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename data/graphs/lyrics_histogram_10_bins.png
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Distribution of Lyrics, 10 Bins 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Distribution-of-Lyrics,"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename data/graphs/lyrics_histogram_all_bins.png
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Distribution of Lyrics, 1 Bin per Word 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Distribution-of-Lyrics-1-Bin"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Duration
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+track_metadata.db
+\end_layout
+
+\end_inset
+
+ file includes a duration for all of the million songs and a year for about
+ half of them.
+ We collected the data by nesting a query for the count and average duration
+ of songs by year in a query for the year and average duration where the
+ count is at least 10.
+ We then created a line graph of average duration as a function of year,
+ seen in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Average-Song-Duration"
+
+\end_inset
+
+.
+ There is a very clear jump in average duration around 1970.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename data/graphs/graph_duration_v_time.png
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Average Song Duration Over Time
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Average-Song-Duration"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The creation of the duration histogram is even more straightforward: it
+ is just the binning of a query for duration.
+ This histogram can be seen in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Song-Duration-Distribution"
+
+\end_inset
+
+.
+ There are very few songs with exceptionally long duration, and we had no
+ success confirming that the songs with the longest duration in the dataset
+ were actually that long (30 - 60 minutes).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename data/graphs/graph_duration_histogram.png
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Song Duration Distribution
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Song-Duration-Distribution"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
 Volume
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename data/graphs/graph_loudness_v_time.png
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Average Loudness per Year 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Average-Loudness-per"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename data/graphs/graph_loudness_histogram.png
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Song Loudness Distribution 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Song-Loudness-Distribution"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Tempo
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename data/graphs/graph_tempo_v_time.png
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Average Tempo per Year 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Average-Tempo-per"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename data/graphs/graph_tempo_histogram.png
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Song Tempo Distribution 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Song-Tempo-Distribution"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -297,6 +685,17 @@ Conclusion
 
 \begin_layout Section
 References
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "Final_Project_Report"
+options "ACM-Reference-Format-Journals"
+
+\end_inset
+
+
 \end_layout
 
 \end_body
